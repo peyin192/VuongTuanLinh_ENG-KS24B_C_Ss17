@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void displayMenu() {
-    printf("\nMENU\n");
+    printf("MENU\n");
     printf("1. Nhap vao so phan tu va tung phan tu\n");
     printf("2. In ra cac phan tu la so chan\n");
     printf("3. In ra cac phan tu la so nguyen to\n");
