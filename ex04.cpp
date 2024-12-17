@@ -1,154 +1,159 @@
-#include <stdio.h>
-
-void displayMenu() {
-    printf("MENU\n");
-    printf("1. Nhap vao so phan tu va tung phan tu\n");
-    printf("2. In ra cac phan tu la so chan\n");
-    printf("3. In ra cac phan tu la so nguyen to\n");
-    printf("4. Dao nguoc mang\n");
-    printf("5. Sap xep mang\n");
-    printf("   1. Tang dan\n");
-    printf("   2. Giam dan\n");
-    printf("6. Nhap vao mot phan tu va tim kiem phan tu trong mang\n");
-    printf("7. Thoat\n");
-}
-
-bool isPrime(int num) {
-    if (num <= 1) return false;
-    for (int i = 2; i * i <= num; i++) {
-        if (num % i == 0) return false;
-    }
-    return true;
-}
-
-void inputArray(int **arr, int *n) {
-    printf("Nhap so phan tu: ");
-    scanf("%d", n);
-    *arr = (int *)malloc(*n * sizeof(int));
-    printf("Nhap cac phan tu: ");
-    for (int i = 0; i < *n; i++) {
-        scanf("%d", &(*arr)[i]);
-    }
-}
-
-void printEvenNumbers(int *arr, int n) {
-    printf("Cac phan tu la so chan: ");
-    for (int i = 0; i < n; i++) {
-        if (arr[i] % 2 == 0) {
-            printf("%d ", arr[i]);
-        }
-    }
-    printf("\n");
-}
-
-void printPrimeNumbers(int *arr, int n) {
-    printf("Cac phan tu la so nguyen to: ");
-    for (int i = 0; i < n; i++) {
-        if (isPrime(arr[i])) {
-            printf("%d ", arr[i]);
-        }
-    }
-    printf("\n");
-}
-
-void reverseArray(int *arr, int n) {
-    int temp;
-    for (int i = 0; i < n / 2; i++) {
-        temp = arr[i];
-        arr[i] = arr[n - i - 1];
-        arr[n - i - 1] = temp;
-    }
-    printf("Mang sau khi dao nguoc: ");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
-
-void sortArray(int *arr, int n, bool ascending) {
-    int temp;
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if ((ascending && arr[i] > arr[j]) || (!ascending && arr[i] < arr[j])) {
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-    }
-    printf("Mang sau khi sap xep: ");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
-
-void searchElement(int *arr, int n) {
-    int element;
-    printf("Nhap phan tu can tim: ");
-    scanf("%d", &element);
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == element) {
-            printf("Phan tu %d duoc tim thay tai vi tri %d.\n", element, i);
-            return;
-        }
-    }
-    printf("Phan tu %d khong ton tai trong mang.\n", element);
-}
-
-int main() {
-    int *arr = NULL;
-    int n = 0;
-    int choice;
-
-    while (1) {
-        displayMenu();
+#include<stdio.h>
+void addArr(int *arr, int *length);
+void showEvenNumber(int *arr, int length);// in số chẵn
+void primeNumber(int *arr, int length);
+void reverseArr(int *arr, int length);
+void increaseArr(int *arr, int length);// tang
+void reduceArr(int *arr, int length);// giam
+void findNumber(int *arr, int length);
+int main(void){
+    int arr[100];
+    int choose=0, flag=0, length=0;
+    printf("MENU \n 1. Nhap vao so phan tu va tung phan tu \n 2. In ra cac phan tu la so chan \n 3. In ra cac pha tu la so nguyen to \n 4. Dao nguoc mang \n 5. Sap xep mang \n 6. Nhap vao 1 phan tu va tim kiem phan tu trong mang \n 7. Thoat \n");
+    do {
         printf("Lua chon cua ban: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
+        scanf("%d", &choose);
+        switch(choose){
             case 1:
-                inputArray(&arr, &n);
+                flag=1;
+                addArr(arr, &length);
                 break;
             case 2:
-                printEvenNumbers(arr, n);
+                if(flag==1){
+                    printf("Cac phan tu la so chan la: ");
+                    showEvenNumber(arr, length);
+                    printf("\n");
+                }else{
+                    printf("Ban chu khoi tao mang \n");
+                }
                 break;
             case 3:
-                printPrimeNumbers(arr, n);
+                if(flag==1){
+                    printf("Cac phan tu la so nguyen to la: ");
+                    primeNumber(arr, length);
+                    printf("\n");
+                }else{
+                    printf("Ban chu khoi tao mang \n");
+                }
                 break;
             case 4:
-                reverseArray(arr, n);
+                if(flag==1){
+                    reverseArr(arr, length);
+                    printf("\n");
+                }else{
+                    printf("Ban chu khoi tao mang \n");
+                }
                 break;
             case 5:
-                {
-                    int sortChoice;
-                    printf("Chon lua chon sap xep:\n");
-                    printf("1. Tang dan\n");
-                    printf("2. Giam dan\n");
-                    printf("Lua chon cua ban: ");
-                    scanf("%d", &sortChoice);
-                    if (sortChoice == 1) {
-                        sortArray(arr, n, true);
-                    } else if (sortChoice == 2) {
-                        sortArray(arr, n, false);
-                    } else {
-                        printf("Lua chon khong hop le!\n");
+                if(flag==1){
+                    int elect=0;
+                    printf("1. Tang dan \n2. Giam dan \n");
+                    do{
+                        printf("Moi ban chon: ");
+                        scanf("%d", &elect);
+                    }while(elect!=1 && elect!=2);
+                    if(elect==1){
+                        increaseArr(arr, length);
+                        printf("\n");
+                    }else{
+                        reduceArr(arr, length);
+                        printf("\n");
                     }
+                }else{
+                    printf("Ban chu khoi tao mang \n");
                 }
                 break;
             case 6:
-                searchElement(arr, n);
+                if(flag==1){
+                    findNumber(arr, length);
+                    printf("\n");
+                }else{
+                    printf("Ban chu khoi tao mang \n");
+                }
                 break;
             case 7:
-                free(arr);
-                printf("Thoat chuong trinh.\n");
-                return 0;
-            default:
-                printf("Lua chon khong hop le!\n");
+                printf("Ban da chon thoat \n");
                 break;
+            default:
+                printf("Lua chon cua ban khong co trong MENU \n");
         }
-    }
-
+    }while(choose!= 7);
     return 0;
 }
-
+void addArr(int *arr, int*length){
+    printf("Moi ban nhap so phan tu: ");
+    scanf("%d", &(*length));
+    for(int i=0; i<*length; i++){
+        printf("arr[%d]= ", i);
+        scanf("%d", &(*(arr+i)));
+    }
+}
+void showEvenNumber(int *arr, int length){
+    for(int i=0; i<length; i++){
+        if(*(arr +i) %2==0 ){
+            printf("%d ", *(arr +i));
+        }
+    }
+}
+void primeNumber(int *arr, int length){
+    for(int i=0; i<length; i++){
+        int count=0;
+        for(int j=1; j<=*(arr+i); j++){
+            if(*(arr+i) %j==0){
+                count++;
+            }
+        }
+        if(count==2){
+            printf("%d ", *(arr+i));
+        }
+    }
+}
+void reverseArr(int *arr, int length){
+    for(int i=0; i<(length /2); i++){
+        int temp= *(arr+i);
+        *(arr+i)=*(arr+(length-i-1));
+        *(arr +(length-i-1))= temp;
+    }
+    for(int i=0; i<length; i++){
+        printf("%d ", *(arr+i));
+    }
+}
+void increaseArr(int *arr, int length){
+    for(int i=0; i<length-1; i++){
+        for(int j=0; j<length-1; j++){
+            if(*(arr+j)> *(arr+(j+1))){
+                int temp= *(arr+j);
+                *(arr +j)= *(arr+(j+1));
+                *(arr+(j+1))= temp;
+            }
+        }
+    }
+    for(int i=0; i<length; i++){
+        printf("%d ", *(arr+i));
+    }
+}
+void reduceArr(int *arr, int length){
+    for(int i=0; i<length-1; i++){
+        for(int j=0; j<length-1; j++){
+            if(*(arr+j)< *(arr+(j+1))){
+                int temp= *(arr+j);
+                *(arr +j)= *(arr+(j+1));
+                *(arr+(j+1))= temp;
+            }
+        }
+    }
+    for(int i=0; i<length; i++){
+        printf("%d ", *(arr+i));
+    }
+}
+void findNumber(int *arr,int length){
+    int number=0;
+    printf("Moi ban nhap phan tu muon tim: ");
+    scanf("%d", &number);
+    printf("Phan tu %d nam o vi tri: ", number);
+    for(int i=0; i<length; i++){
+        if(number== *(arr+i)){
+            printf("arr[%d] ", i);
+        }
+    }
+}
